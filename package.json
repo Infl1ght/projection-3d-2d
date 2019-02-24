@@ -1,0 +1,27 @@
+{
+  "name": "projection-3d-2d",
+  "version": "1.0.0",
+  "description": "Creating transform matrix from annotated 6 points and projection from 3d to 2d and back",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --exit test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Infl1ght/projection-3d-2d.git"
+  },
+  "author": "Ilya Volkov <ilya.inflight@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Infl1ght/projection-3d-2d/issues"
+  },
+  "homepage": "https://github.com/Infl1ght/projection-3d-2d#readme",
+  "dependencies": {
+    "matlight": "^0.2.1",
+    "ml-matrix": "^5.2.1"
+  },
+  "devDependencies": {
+    "mocha": "^6.0.1",
+    "ts-node": "^8.0.2"
+  }
+}
