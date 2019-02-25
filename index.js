@@ -23,9 +23,7 @@ class ProjectionCalculator {
     const generalMatrix = new Matrix(points2d.length * 2, 12);
     let k = 0;
     for (let i = 0; i < points3d.length; i += 1) {
-      generalMatrix[k][0] = this.points3d[i][0];
-      generalMatrix[k][1] = this.points3d[i][1];
-      generalMatrix[k][2] = this.points3d[i][2];
+      [generalMatrix[k][0], generalMatrix[k][1], generalMatrix[k][2]] = this.points3d[i];
       generalMatrix[k][3] = 1;
       generalMatrix[k][4] = 0;
       generalMatrix[k][5] = 0;
@@ -39,9 +37,7 @@ class ProjectionCalculator {
       generalMatrix[k + 1][1] = 0;
       generalMatrix[k + 1][2] = 0;
       generalMatrix[k + 1][3] = 0;
-      generalMatrix[k + 1][4] = this.points3d[i][0];
-      generalMatrix[k + 1][5] = this.points3d[i][1];
-      generalMatrix[k + 1][6] = this.points3d[i][2];
+      [generalMatrix[k + 1][4], generalMatrix[k + 1][5], generalMatrix[k + 1][6]] = this.points3d[i];
       generalMatrix[k + 1][7] = 1;
       generalMatrix[k + 1][8] = -this.points3d[i][0] * this.points2d[i][1];
       generalMatrix[k + 1][9] = -this.points3d[i][1] * this.points2d[i][1];
