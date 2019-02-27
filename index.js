@@ -1,5 +1,7 @@
 /* eslint-disable max-len */
-const { Matrix, SingularValueDecomposition, inverse } = require('ml-matrix');
+const {
+  Matrix, SingularValueDecomposition, inverse, solve,
+} = require('ml-matrix');
 
 class ProjectionCalculator {
   constructor(points3d, points2d, screenWidth, screenHeight) {
@@ -13,16 +15,25 @@ class ProjectionCalculator {
     this.x = screenWidth / 2;
     this.y = screenHeight / 2;
 
-    for (let i = 0; i < points2d.length; i += 1) {
+    for (let i = 0; i < this.points2d.length; i += 1) {
       this.points2d[i][0] -= this.x;
       this.points2d[i][0] /= this.x;
       this.points2d[i][1] -= this.y;
       this.points2d[i][1] /= this.y;
     }
+  }
+}
 
-    const generalMatrix = new Matrix(points2d.length * 2, 12);
+class ProjectionCalculator3d extends ProjectionCalculator {
+  constructor(points3d, points2d, screenWidth, screenHeight) {
+    super(points3d, points2d, screenWidth, screenHeight);
+    this.calculateMatrix();
+  }
+
+  calculateMatrix() {
+    const generalMatrix = new Matrix(this.points2d.length * 2, 12);
     let k = 0;
-    for (let i = 0; i < points3d.length; i += 1) {
+    for (let i = 0; i < this.points3d.length; i += 1) {
       [generalMatrix[k][0], generalMatrix[k][1], generalMatrix[k][2]] = this.points3d[i];
       generalMatrix[k][3] = 1;
       generalMatrix[k][4] = 0;
@@ -66,12 +77,12 @@ class ProjectionCalculator {
     ];
   }
 
-  get3dPointOnHeight(point2d, height) {
+  get3dPointOnHeight(point2d, height = 0) {
     const point1 = Matrix.columnVector([(point2d[0] - this.x) / this.x, (point2d[1] - this.y) / this.y, 1, 1]);
     const point2 = Matrix.columnVector([100 * (point2d[0] - this.x) / this.x, 100 * (point2d[1] - this.y) / this.y, 100, 1]);
     const rayPoint1 = this.resultMatrixInversed.mmul(point1);
     const rayPoint2 = this.resultMatrixInversed.mmul(point2);
-    const result = ProjectionCalculator.getIntersectionLineAndPlane(rayPoint1, rayPoint2, [0, 0, height], [0, 10, height], [10, 0, height]);
+    const result = ProjectionCalculator3d.getIntersectionLineAndPlane(rayPoint1, rayPoint2, [0, 0, height], [0, 10, height], [10, 0, height]);
     return result;
   }
 
@@ -94,4 +105,60 @@ class ProjectionCalculator {
   }
 }
 
-module.exports = ProjectionCalculator;
+class ProjectionCalculator2d extends ProjectionCalculator {
+  constructor(points3d, points2d, screenWidth, screenHeight) {
+    super(points3d, points2d, screenWidth, screenHeight);
+    this.calculateMatrix();
+  }
+
+  calculateMatrix() {
+    const leftMatrix = new Matrix(this.points2d.length * 2, 8);
+    const rigthMatrix = new Matrix(8, 1);
+    let k = 0;
+    for (let i = 0; i < this.points3d.length; i += 1) {
+      [leftMatrix[k][0], leftMatrix[k][1]] = this.points3d[i];
+      leftMatrix[k][2] = 1;
+      leftMatrix[k][3] = 0;
+      leftMatrix[k][4] = 0;
+      leftMatrix[k][5] = 0;
+      leftMatrix[k][6] = -this.points3d[i][0] * this.points2d[i][0];
+      leftMatrix[k][7] = -this.points3d[i][1] * this.points2d[i][0];
+      [rigthMatrix[k][0]] = this.points2d[i];
+
+      leftMatrix[k + 1][0] = 0;
+      leftMatrix[k + 1][1] = 0;
+      leftMatrix[k + 1][2] = 0;
+      [leftMatrix[k + 1][3], leftMatrix[k + 1][4]] = this.points3d[i];
+      leftMatrix[k + 1][5] = 1;
+      leftMatrix[k + 1][6] = -this.points3d[i][0] * this.points2d[i][1];
+      leftMatrix[k + 1][7] = -this.points3d[i][1] * this.points2d[i][1];
+      [, rigthMatrix[k + 1][0]] = this.points2d[i];
+      k += 2;
+    }
+    const solution = solve(leftMatrix, rigthMatrix);
+    this.resultMatrix = new Matrix([
+      [solution[0][0], solution[1][0], solution[2][0]],
+      [solution[3][0], solution[4][0], solution[5][0]],
+      [solution[6][0], solution[7][0], 1],
+    ]);
+    this.resultMatrixInversed = inverse(this.resultMatrix);
+  }
+
+  getProjectedPoint(point3d) {
+    const point = Matrix.columnVector([point3d[0], point3d[1], 1]);
+    const projectedPoint = this.resultMatrix.mmul(point);
+    return [
+      (projectedPoint[0] / projectedPoint[2]) * this.x + this.x,
+      (projectedPoint[1] / projectedPoint[2]) * this.y + this.y,
+    ];
+  }
+
+  getUnprojectedPoint(point2d) {
+    const point = Matrix.columnVector([(point2d[0] - this.x) / this.x, (point2d[1] - this.y) / this.y, 1]);
+    const projectedPoint = this.resultMatrixInversed.mmul(point);
+    return [projectedPoint[0] / projectedPoint[2], projectedPoint[1] / projectedPoint[2]];
+  }
+}
+
+module.exports.ProjectionCalculator3d = ProjectionCalculator3d;
+module.exports.ProjectionCalculator2d = ProjectionCalculator2d;
