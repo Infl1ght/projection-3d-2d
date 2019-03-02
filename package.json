@@ -17,7 +17,6 @@
   },
   "homepage": "https://github.com/Infl1ght/projection-3d-2d#readme",
   "dependencies": {
-    "matlight": "^0.2.1",
     "ml-matrix": "^5.2.1"
   },
   "devDependencies": {

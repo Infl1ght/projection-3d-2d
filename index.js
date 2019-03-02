@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 const {
   Matrix, SingularValueDecomposition, inverse, solve,
 } = require('ml-matrix');
@@ -77,19 +76,36 @@ class ProjectionCalculator3d extends ProjectionCalculator {
     ];
   }
 
-  get3dPointOnHeight(point2d, height = 0) {
+  getUnprojectedPoint(point2d, height) {
+    if (!height) {
+      throw new Error('Point height must be defined for 3d unprojection');
+    }
     const point1 = Matrix.columnVector([(point2d[0] - this.x) / this.x, (point2d[1] - this.y) / this.y, 1, 1]);
-    const point2 = Matrix.columnVector([100 * (point2d[0] - this.x) / this.x, 100 * (point2d[1] - this.y) / this.y, 100, 1]);
+    const point2 = Matrix.columnVector([
+      100 * (point2d[0] - this.x) / this.x,
+      100 * (point2d[1] - this.y) / this.y,
+      100,
+      1,
+    ]);
     const rayPoint1 = this.resultMatrixInversed.mmul(point1);
     const rayPoint2 = this.resultMatrixInversed.mmul(point2);
-    const result = ProjectionCalculator3d.getIntersectionLineAndPlane(rayPoint1, rayPoint2, [0, 0, height], [0, 10, height], [10, 0, height]);
+    const result = ProjectionCalculator3d.getIntersectionLineAndPlane(
+      rayPoint1,
+      rayPoint2,
+      [0, 0, height],
+      [0, 10, height],
+      [10, 0, height],
+    );
     return result;
   }
 
   static getIntersectionLineAndPlane(linePoint1, linePoint2, planePoint1, planePoint2, planePoint3) {
-    const A = (planePoint2[1] - planePoint1[1]) * (planePoint3[2] - planePoint1[2]) - (planePoint2[2] - planePoint1[2]) * (planePoint3[1] - planePoint1[1]);
-    const B = (planePoint2[2] - planePoint1[2]) * (planePoint3[0] - planePoint1[0]) - (planePoint2[0] - planePoint1[0]) * (planePoint3[2] - planePoint1[2]);
-    const C = (planePoint2[0] - planePoint1[0]) * (planePoint3[1] - planePoint1[1]) - (planePoint2[1] - planePoint1[1]) * (planePoint3[0] - planePoint1[0]);
+    const A = (planePoint2[1] - planePoint1[1]) * (planePoint3[2] - planePoint1[2])
+      - (planePoint2[2] - planePoint1[2]) * (planePoint3[1] - planePoint1[1]);
+    const B = (planePoint2[2] - planePoint1[2]) * (planePoint3[0] - planePoint1[0])
+      - (planePoint2[0] - planePoint1[0]) * (planePoint3[2] - planePoint1[2]);
+    const C = (planePoint2[0] - planePoint1[0]) * (planePoint3[1] - planePoint1[1])
+      - (planePoint2[1] - planePoint1[1]) * (planePoint3[0] - planePoint1[0]);
     const D = A * planePoint1[0] + B * planePoint1[1] + C * planePoint1[2];
     const a = linePoint2[0] - linePoint1[0];
     const b = linePoint2[1] - linePoint1[1];
