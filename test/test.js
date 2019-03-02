@@ -1,8 +1,9 @@
 const assert = require('assert');
-const { ProjectionCalculator3d, ProjectionCalculator2d }= require('../index.js');
+const { ProjectionCalculator3d, ProjectionCalculator2d } = require('../index.js');
 
 describe('Projection calculator', () => {
-  it('Calculate matrix for plane', () => {
+  const EPSILON = 0.0001;
+  it('Test 2d projection', () => {
     const points3d = [
       [23.2, 0],
       [28.8, 0],
@@ -16,10 +17,14 @@ describe('Projection calculator', () => {
       [525, 263],
     ];
     const projectionCalculator = new ProjectionCalculator2d(points3d, points2d, 1280, 720);
-    const projectedPoint = projectionCalculator.getUnprojectedPoint([891, 406]);
+    const projectedPoint = projectionCalculator.getUnprojectedPoint(points2d[0]);
     const restoredPoint = projectionCalculator.getProjectedPoint(projectedPoint);
+    assert.strictEqual(points2d[0][0] - EPSILON < restoredPoint[0], true);
+    assert.strictEqual(restoredPoint[0] > points2d[0][0] - EPSILON, true);
+    assert.strictEqual(points2d[0][1] - EPSILON < restoredPoint[1], true);
+    assert.strictEqual(restoredPoint[1] > points2d[0][1] - EPSILON, true);
   });
-  it('Calculate matrix', () => {
+  it('Test 3d projection', () => {
     const points3d = [
       [23.2, 0, 0],
       [23.2, 0, 2.35],
@@ -41,48 +46,11 @@ describe('Projection calculator', () => {
       [525, 263],
     ];
     const projectionCalculator = new ProjectionCalculator3d(points3d, points2d, 1280, 720);
-    const projectedPoint = projectionCalculator.get3dPointOnHeight([891, 406], 0);
+    const projectedPoint = projectionCalculator.getUnprojectedPoint(points2d[0], 0);
     const restoredPoint = projectionCalculator.getProjectedPoint(projectedPoint);
-  });
-  it('Calculate matrix and speed', () => {
-    const points3d = [
-      [0, 0, 0],
-      [32.3, 2.6, 0],
-      [32.3, 22.6, 0],
-      [4, 21.2, 0],
-      [0, 0, 10],
-      [0, -38.5, 10],
-    ];
-    const points2d = [
-      [876, 443],
-      [1852, 365],
-      [1587, 208],
-      [864, 241],
-      [882, 58],
-      [1449, 576],
-    ];
-    const projectionCalculator = new ProjectionCalculator3d(points3d, points2d, 1920, 1080);
-    const projectedPoint1 = projectionCalculator.get3dPointOnHeight([821, 560], 0);
-    const projectedPoint2 = projectionCalculator.get3dPointOnHeight([799, 504], 0);
-  });
-  it('Calculate speed before braking', () => {
-    const points3d = [
-      [0, 0, 0],
-      [32.3, 2.6, 0],
-      [32.3, 22.6, 0],
-      [4, 21.2, 0],
-      [0, 0, 10],
-      [0, -38.5, 10],
-    ];
-    const points2d = [
-      [550, 341],
-      [1138, 287],
-      [980, 192],
-      [544, 215],
-      [554, 104],
-      [895, 415],
-    ];
-    const projectionCalculator = new ProjectionCalculator3d(points3d, points2d, 1280, 720);
-    const projectedPoint = projectionCalculator.get3dPointOnHeight([638, 631], 0);
+    assert.strictEqual(points2d[0][0] - EPSILON < restoredPoint[0], true);
+    assert.strictEqual(restoredPoint[0] > points2d[0][0] - EPSILON, true);
+    assert.strictEqual(points2d[0][1] - EPSILON < restoredPoint[1], true);
+    assert.strictEqual(restoredPoint[1] > points2d[0][1] - EPSILON, true);
   });
 });

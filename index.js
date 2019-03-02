@@ -77,7 +77,7 @@ class ProjectionCalculator3d extends ProjectionCalculator {
   }
 
   getUnprojectedPoint(point2d, height) {
-    if (!height) {
+    if (height === undefined) {
       throw new Error('Point height must be defined for 3d unprojection');
     }
     const point1 = Matrix.columnVector([(point2d[0] - this.x) / this.x, (point2d[1] - this.y) / this.y, 1, 1]);
