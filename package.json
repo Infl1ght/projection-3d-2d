@@ -1,6 +1,6 @@
 {
   "name": "@infl1ght/projection-3d-2d",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Creating transform matrix from annotated 6 points and projection from 3d to 2d and back",
   "main": "index.js",
   "scripts": {

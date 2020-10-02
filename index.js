@@ -11,15 +11,6 @@ class ProjectionCalculator {
     this.points2d = points2d;
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
-    this.x = screenWidth / 2;
-    this.y = screenHeight / 2;
-
-    for (let i = 0; i < this.points2d.length; i += 1) {
-      this.points2d[i][0] -= this.x;
-      this.points2d[i][0] /= this.x;
-      this.points2d[i][1] -= this.y;
-      this.points2d[i][1] /= this.y;
-    }
   }
 }
 
@@ -71,8 +62,8 @@ class ProjectionCalculator3d extends ProjectionCalculator {
     const point = Matrix.columnVector([point3d[0], point3d[1], point3d[2], 1]);
     const projectedPoint = this.resultMatrix.mmul(point);
     return [
-      (projectedPoint[0] / projectedPoint[2]) * this.x + this.x,
-      (projectedPoint[1] / projectedPoint[2]) * this.y + this.y,
+      (projectedPoint[0] / projectedPoint[2]),
+      (projectedPoint[1] / projectedPoint[2]),
     ];
   }
 
@@ -80,10 +71,10 @@ class ProjectionCalculator3d extends ProjectionCalculator {
     if (height === undefined) {
       throw new Error('Point height must be defined for 3d unprojection');
     }
-    const point1 = Matrix.columnVector([(point2d[0] - this.x) / this.x, (point2d[1] - this.y) / this.y, 1, 1]);
+    const point1 = Matrix.columnVector([point2d[0], point2d[1], 1, 1]);
     const point2 = Matrix.columnVector([
-      100 * (point2d[0] - this.x) / this.x,
-      100 * (point2d[1] - this.y) / this.y,
+      100 * point2d[0],
+      100 * point2d[1],
       100,
       1,
     ]);
@@ -164,13 +155,13 @@ class ProjectionCalculator2d extends ProjectionCalculator {
     const point = Matrix.columnVector([point3d[0], point3d[1], 1]);
     const projectedPoint = this.resultMatrix.mmul(point);
     return [
-      (projectedPoint[0] / projectedPoint[2]) * this.x + this.x,
-      (projectedPoint[1] / projectedPoint[2]) * this.y + this.y,
+      (projectedPoint[0] / projectedPoint[2]),
+      (projectedPoint[1] / projectedPoint[2]),
     ];
   }
 
   getUnprojectedPoint(point2d) {
-    const point = Matrix.columnVector([(point2d[0] - this.x) / this.x, (point2d[1] - this.y) / this.y, 1]);
+    const point = Matrix.columnVector([point2d[0], point2d[1], 1]);
     const projectedPoint = this.resultMatrixInversed.mmul(point);
     return [projectedPoint[0] / projectedPoint[2], projectedPoint[1] / projectedPoint[2]];
   }
