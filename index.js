@@ -3,20 +3,18 @@ const {
 } = require('ml-matrix');
 
 class ProjectionCalculator {
-  constructor(points3d, points2d, screenWidth, screenHeight) {
+  constructor(points3d, points2d) {
     if (points3d.length !== points2d.length) {
       throw new Error('Lengths of point arrays must be equal');
     }
     this.points3d = points3d;
     this.points2d = points2d;
-    this.screenWidth = screenWidth;
-    this.screenHeight = screenHeight;
   }
 }
 
 class ProjectionCalculator3d extends ProjectionCalculator {
-  constructor(points3d, points2d, screenWidth, screenHeight) {
-    super(points3d, points2d, screenWidth, screenHeight);
+  constructor(points3d, points2d) {
+    super(points3d, points2d);
     this.calculateMatrix();
   }
 
@@ -113,8 +111,8 @@ class ProjectionCalculator3d extends ProjectionCalculator {
 }
 
 class ProjectionCalculator2d extends ProjectionCalculator {
-  constructor(points3d, points2d, screenWidth, screenHeight) {
-    super(points3d, points2d, screenWidth, screenHeight);
+  constructor(points3d, points2d) {
+    super(points3d, points2d);
     this.calculateMatrix();
   }
 

@@ -5,18 +5,18 @@ describe('Projection calculator', () => {
   const EPSILON = 0.0001;
   it('Test 2d projection', () => {
     const points3d = [
-      [23.2, 0],
-      [28.8, 0],
-      [23.2, 68],
-      [28.8, 68],
+      [0, 0],
+      [16.5, 0],
+      [16.5, 40],
+      [0, 40],
     ];
     const points2d = [
-      [891, 406],
-      [1054, 389],
-      [468, 266],
-      [525, 263],
+      [744, 303],
+      [486, 349],
+      [223, 197],
+      [424, 176],
     ];
-    const projectionCalculator = new ProjectionCalculator2d(points3d, points2d, 1280, 720);
+    const projectionCalculator = new ProjectionCalculator2d(points3d, points2d);
     const projectedPoint = projectionCalculator.getUnprojectedPoint(points2d[0]);
     const restoredPoint = projectionCalculator.getProjectedPoint(projectedPoint);
     assert.strictEqual(points2d[0][0] - EPSILON < restoredPoint[0], true);
@@ -45,7 +45,7 @@ describe('Projection calculator', () => {
       [525, 241],
       [525, 263],
     ];
-    const projectionCalculator = new ProjectionCalculator3d(points3d, points2d, 1280, 720);
+    const projectionCalculator = new ProjectionCalculator3d(points3d, points2d);
     const projectedPoint = projectionCalculator.getUnprojectedPoint(points2d[0], 0);
     const restoredPoint = projectionCalculator.getProjectedPoint(projectedPoint);
     assert.strictEqual(points2d[0][0] - EPSILON < restoredPoint[0], true);

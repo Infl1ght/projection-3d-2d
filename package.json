@@ -1,10 +1,10 @@
 {
-  "name": "@infl1ght/projection-3d-2d",
-  "version": "1.0.1",
-  "description": "Creating transform matrix from annotated 6 points and projection from 3d to 2d and back",
+  "name": "projection-3d-2d",
+  "version": "2.0.2",
+  "description": "Project (transform) point coordinates from 3D to 2D and unproject it back.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit test.js"
+    "test": "mocha --exit test/test.js"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,6 @@
   },
   "directories": {
     "test": "test"
-  }
+  },
+  "keywords": ["projection", "unprojection", "transformation", "projection matrix", "perspective projection", "camera matrix", "perspective", "2d", "3d", "perspective projection matrix", "3d to 2d"]
 }
