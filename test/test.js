@@ -24,6 +24,19 @@ describe('Projection calculator', () => {
     assert.strictEqual(points2d[0][1] - EPSILON < restoredPoint[1], true);
     assert.strictEqual(restoredPoint[1] > points2d[0][1] - EPSILON, true);
   });
+  it('Less than 4 points must throw an error', () => {
+    const points3d = [
+      [0, 0],
+      [16.5, 0],
+      [16.5, 40],
+    ];
+    const points2d = [
+      [744, 303],
+      [486, 349],
+      [223, 197],
+    ];
+    assert.throws(() => { new ProjectionCalculator2d(points3d, points2d) }, Error);
+  });
   it('Test 3d projection', () => {
     const points3d = [
       [23.2, 0, 0],
@@ -48,5 +61,22 @@ describe('Projection calculator', () => {
     assert.strictEqual(restoredPoint[0] > points2d[0][0] - EPSILON, true);
     assert.strictEqual(points2d[0][1] - EPSILON < restoredPoint[1], true);
     assert.strictEqual(restoredPoint[1] > points2d[0][1] - EPSILON, true);
+  });
+  it('Less than 6 points must throw an error', () => {
+    const points3d = [
+      [23.2, 0, 0],
+      [23.2, 0, 2.35],
+      [28.8, 0, 2.35],
+      [28.8, 0, 0],
+      [23.2, 68, 0],
+    ];
+    const points2d = [
+      [891, 406],
+      [891, 326],
+      [1055, 316],
+      [1054, 389],
+      [468, 266],
+    ];
+    assert.throws(() => { new ProjectionCalculator3d(points3d, points2d) }, Error);
   });
 });

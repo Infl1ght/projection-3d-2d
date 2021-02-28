@@ -15,6 +15,9 @@ class ProjectionCalculator {
 class ProjectionCalculator3d extends ProjectionCalculator {
   constructor(points3d, points2d) {
     super(points3d, points2d);
+    if (points3d.length < 6) {
+      throw new Error('6 points must be provided for ProjectionCalculator3d');
+    }
     this.calculateMatrix();
   }
 
@@ -113,6 +116,9 @@ class ProjectionCalculator3d extends ProjectionCalculator {
 class ProjectionCalculator2d extends ProjectionCalculator {
   constructor(points3d, points2d) {
     super(points3d, points2d);
+    if (points3d.length < 4) {
+      throw new Error('4 points must be provided for ProjectionCalculator3d');
+    }
     this.calculateMatrix();
   }
 

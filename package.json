@@ -1,6 +1,6 @@
 {
   "name": "projection-3d-2d",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Project (transform) point coordinates from 3D to 2D and unproject it back.",
   "main": "index.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "ml-matrix": "^5.2.1"
   },
   "devDependencies": {
-    "mocha": "^6.0.1"
+    "mocha": "^8.3.0"
   },
   "directories": {
     "test": "test"

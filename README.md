@@ -1,4 +1,4 @@
-# projection-3d-2d v2.0.3
+# projection-3d-2d v2.0.4
 Calculates [perspective transformation (projection)](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection).
 
 Project (transform) point coordinates from 3D to 2D and unproject it back.
