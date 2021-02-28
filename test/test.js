@@ -32,8 +32,6 @@ describe('Projection calculator', () => {
       [28.8, 0, 0],
       [23.2, 68, 0],
       [23.2, 68, 2.35],
-      [28.8, 68, 2.35],
-      [28.8, 68, 0],
     ];
     const points2d = [
       [891, 406],
@@ -42,8 +40,6 @@ describe('Projection calculator', () => {
       [1054, 389],
       [468, 266],
       [468, 242],
-      [525, 241],
-      [525, 263],
     ];
     const projectionCalculator = new ProjectionCalculator3d(points3d, points2d);
     const projectedPoint = projectionCalculator.getUnprojectedPoint(points2d[0], 0);

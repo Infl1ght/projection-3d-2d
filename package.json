@@ -37,5 +37,6 @@
     "3d",
     "perspective projection matrix",
     "3d to 2d"
-  ]
+  ],
+  "types": "main.d.ts"
 }
