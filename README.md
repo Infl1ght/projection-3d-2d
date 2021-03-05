@@ -2,11 +2,12 @@
 Calculates [perspective transformation (projection)](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection).
 
 Project (transform) point coordinates from 3D to 2D and unproject it back.
-
-## Installation
-Using npm:
-
-```npm i --save projection-3d-2d```
+* [Features](#features)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Example 2D to 2D](#example-2d-to-2d)
+* [Resources](#resources)
+* [License](#license)
 
 ## Features
 - Projecting points from 2D plane to 2D plane
@@ -15,6 +16,11 @@ Using npm:
 - Unprojecting points from 2D plane to 3D space
 - Сalculation and access to [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix#Perspective_projection)
 - Сalculation and access to inversed transformation matrix
+
+## Installation
+Using npm:
+
+```npm i --save projection-3d-2d```
 
 ## Usage
 You can calculate perspective transformations of points in 2 modes: 2D to 2D and 3D to 2D.
@@ -85,5 +91,5 @@ console.log(projectionCalculator.resultMatrixInversed);
 ## Resources
 [Wikipedia article about perspective transformations](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection)
 
-## Lisence
+## License
 [MIT](https://github.com/Infl1ght/projection-3d-2d/blob/master/LICENSE)
