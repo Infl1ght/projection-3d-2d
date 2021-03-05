@@ -1,5 +1,5 @@
 # projection-3d-2d v2.0.4
-Calculates [perspective transformation (projection)](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection).
+Calculates [perspective transformation](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection) only from 4 annotated points (6 points for 3D).
 
 Project (transform) point coordinates from 3D to 2D and unproject it back.
 * [Features](#features)
@@ -14,8 +14,9 @@ Project (transform) point coordinates from 3D to 2D and unproject it back.
 - Unprojecting points from 2D plane to 2D plane
 - Projecting points from 3D space to 2D plane
 - Unprojecting points from 2D plane to 3D space
-- Сalculation and access to [transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix#Perspective_projection)
-- Сalculation and access to inversed transformation matrix
+- Сalculating and access to [perspective transformation matrix](https://en.wikipedia.org/wiki/Transformation_matrix#Perspective_projection)
+- Сalculating and access to inversed perspective transformation matrix
+- Calculating perspective transformation matrix only from known points (without field of view, aspect ratio, etc.)  
 
 ## Installation
 Using npm:
