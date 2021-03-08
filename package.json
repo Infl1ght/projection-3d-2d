@@ -1,6 +1,6 @@
 {
   "name": "projection-3d-2d",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Project (transform) point coordinates from 3D to 2D and unproject it back.",
   "main": "index.js",
   "scripts": {

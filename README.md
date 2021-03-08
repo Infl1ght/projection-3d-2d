@@ -1,4 +1,4 @@
-# projection-3d-2d v2.0.6
+# projection-3d-2d v2.0.7
 Calculates [perspective transformation](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection) only from 4 annotated points (6 points for 3D).
 
 Project (transform) point coordinates from 3D to 2D and unproject it back.
