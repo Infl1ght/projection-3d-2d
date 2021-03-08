@@ -17,10 +17,10 @@
   },
   "homepage": "https://github.com/Infl1ght/projection-3d-2d#readme",
   "dependencies": {
-    "ml-matrix": "^5.2.1"
+    "ml-matrix": "5.2.1"
   },
   "devDependencies": {
-    "mocha": "^8.3.0"
+    "mocha": "8.3.0"
   },
   "directories": {
     "test": "test"
