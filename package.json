@@ -1,10 +1,11 @@
 {
   "name": "projection-3d-2d",
-  "version": "2.0.4",
+  "version": "2.0.5",
   "description": "Project (transform) point coordinates from 3D to 2D and unproject it back.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --exit test/test.js"
+    "test": "mocha --exit test/test.js",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -20,7 +21,12 @@
     "ml-matrix": "5.2.1"
   },
   "devDependencies": {
-    "mocha": "8.3.0"
+    "@babel/core": "^7.13.8",
+    "@babel/preset-env": "^7.13.9",
+    "babel-loader": "^8.2.2",
+    "mocha": "8.3.0",
+    "webpack": "^5.24.4",
+    "webpack-cli": "^4.5.0"
   },
   "directories": {
     "test": "test"
@@ -38,5 +44,6 @@
     "perspective projection matrix",
     "3d to 2d"
   ],
-  "types": "main.d.ts"
+  "types": "main.d.ts",
+  "prepublishOnly": "webpack --mode=production"
 }
