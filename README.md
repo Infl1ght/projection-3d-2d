@@ -1,10 +1,11 @@
-# projection-3d-2d v2.0.4
+# projection-3d-2d v2.0.5
 Calculates [perspective transformation](https://en.wikipedia.org/wiki/3D_projection#Perspective_projection) only from 4 annotated points (6 points for 3D).
 
 Project (transform) point coordinates from 3D to 2D and unproject it back.
 * [Features](#features)
 * [Installation](#installation)
 * [Usage](#usage)
+* [Demo](#demo)
 * [Example 2D to 2D](#example-2d-to-2d)
 * [Resources](#resources)
 * [License](#license)
@@ -39,6 +40,8 @@ Another difference from the 2D projection calculator - when unprojecting, you mu
     const upprojectedPoint = projectionCalculator.getUnprojectedPoint(somePointScreenCoords, height);
 ```
 
+## Demo
+[https://infl1ght.github.io/projection-3d-2d/](https://infl1ght.github.io/projection-3d-2d/)
 
 ## Example 2D to 2D
 For example, let's take the penalty area of a football field: we know its dimensions and, accordingly, we know the coordinates of 4 points. After creating the projection calculator, we can calculate the coordinates of all the players on the field. The reverse operation is also available: it is possible to calculate the screen coordinates of any points in the field. This allows a grid to be drawn on the screen.
