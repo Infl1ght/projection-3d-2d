@@ -2,10 +2,15 @@ const {
   Matrix, SingularValueDecomposition, inverse, solve,
 } = require('ml-matrix');
 
+const messageSeeExample = 'See example: https://github.com/Infl1ght/projection-3d-2d#example-2d-to-2d';
+
 class ProjectionCalculator {
   constructor(points3d, points2d) {
+    if (!points3d || !points2d) {
+      throw new Error('Two arrays with points must be provided. ' + messageSeeExample);
+    }
     if (points3d.length !== points2d.length) {
-      throw new Error('Lengths of point arrays must be equal');
+      throw new Error('Lengths of point arrays must be equal. ' + messageSeeExample);
     }
     this.points3d = points3d;
     this.points2d = points2d;
@@ -16,7 +21,7 @@ class ProjectionCalculator3d extends ProjectionCalculator {
   constructor(points3d, points2d) {
     super(points3d, points2d);
     if (points3d.length < 6) {
-      throw new Error('6 points must be provided for ProjectionCalculator3d');
+      throw new Error('6 points must be provided for ProjectionCalculator3d. ' + messageSeeExample);
     }
     this.calculateMatrix();
   }
@@ -117,7 +122,7 @@ class ProjectionCalculator2d extends ProjectionCalculator {
   constructor(points3d, points2d) {
     super(points3d, points2d);
     if (points3d.length < 4) {
-      throw new Error('4 points must be provided for ProjectionCalculator3d');
+      throw new Error('4 points must be provided for ProjectionCalculator3d. ' + messageSeeExample);
     }
     this.calculateMatrix();
   }
