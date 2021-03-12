@@ -83,7 +83,7 @@ var projectedPoint = projectionCalculator2d.getProjectedPoint(somePointWorldCoor
 ```
 ### 3D points to 2D (ProjectionCalculator3d)
 Transformation 3D coordinates to 2D is similar to the previous case, however, to create a projection calculator, you need 6 points, not 4. 2 points must be non-coplanar for others 4.
-Another difference from the 2D projection calculator - when unprojecting, you must specify the height of point.
+Another difference from the 2D projection calculator - when unprojecting, you must specify the Z coord (height) of point.
 
 #### Common use
 ```javascript
@@ -131,7 +131,8 @@ import { ProjectionCalculator3d } from 'projection-3d-2d';
       [468, 242],
     ];
 var projectionCalculator3d = new Projection3d2d.ProjectionCalculator3d(points3d, points2d);
-var unprojectedPoint = projectionCalculator3d.getUnprojectedPoint(somePointScreenCoords);
+const height = 2.36;
+var unprojectedPoint = projectionCalculator3d.getUnprojectedPoint(somePointScreenCoords, height);
 var projectedPoint = projectionCalculator3d.getProjectedPoint(somePointWorldCoords);
 </script>
 ```
