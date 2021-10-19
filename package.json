@@ -1,6 +1,6 @@
 {
   "name": "projection-3d-2d",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Project (transform) point coordinates from 3D to 2D and unproject it back.",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,7 @@
     "@babel/core": "^7.13.8",
     "@babel/preset-env": "^7.13.9",
     "babel-loader": "^8.2.2",
-    "mocha": "8.3.0",
+    "mocha": "^9.1.3",
     "webpack": "^5.24.4",
     "webpack-cli": "^4.5.0"
   },
