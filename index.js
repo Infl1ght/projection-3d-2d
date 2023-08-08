@@ -30,31 +30,31 @@ class ProjectionCalculator3d extends ProjectionCalculator {
     const generalMatrix = new Matrix(this.points2d.length * 2, 12);
     let k = 0;
     for (let i = 0; i < this.points3d.length; i += 1) {
-      [generalMatrix[k][0], generalMatrix[k][1], generalMatrix[k][2]] = this.points3d[i];
-      generalMatrix[k][3] = 1;
-      generalMatrix[k][4] = 0;
-      generalMatrix[k][5] = 0;
-      generalMatrix[k][6] = 0;
-      generalMatrix[k][7] = 0;
-      generalMatrix[k][8] = -this.points3d[i][0] * this.points2d[i][0];
-      generalMatrix[k][9] = -this.points3d[i][1] * this.points2d[i][0];
-      generalMatrix[k][10] = -this.points3d[i][2] * this.points2d[i][0];
-      generalMatrix[k][11] = -this.points2d[i][0];
-      generalMatrix[k + 1][0] = 0;
-      generalMatrix[k + 1][1] = 0;
-      generalMatrix[k + 1][2] = 0;
-      generalMatrix[k + 1][3] = 0;
-      [generalMatrix[k + 1][4], generalMatrix[k + 1][5], generalMatrix[k + 1][6]] = this.points3d[i];
-      generalMatrix[k + 1][7] = 1;
-      generalMatrix[k + 1][8] = -this.points3d[i][0] * this.points2d[i][1];
-      generalMatrix[k + 1][9] = -this.points3d[i][1] * this.points2d[i][1];
-      generalMatrix[k + 1][10] = -this.points3d[i][2] * this.points2d[i][1];
-      generalMatrix[k + 1][11] = -this.points2d[i][1];
+      [generalMatrix.data[k][0], generalMatrix.data[k][1], generalMatrix.data[k][2]] = this.points3d[i];
+      generalMatrix.data[k][3] = 1;
+      generalMatrix.data[k][4] = 0;
+      generalMatrix.data[k][5] = 0;
+      generalMatrix.data[k][6] = 0;
+      generalMatrix.data[k][7] = 0;
+      generalMatrix.data[k][8] = -this.points3d[i][0] * this.points2d[i][0];
+      generalMatrix.data[k][9] = -this.points3d[i][1] * this.points2d[i][0];
+      generalMatrix.data[k][10] = -this.points3d[i][2] * this.points2d[i][0];
+      generalMatrix.data[k][11] = -this.points2d[i][0];
+      generalMatrix.data[k + 1][0] = 0;
+      generalMatrix.data[k + 1][1] = 0;
+      generalMatrix.data[k + 1][2] = 0;
+      generalMatrix.data[k + 1][3] = 0;
+      [generalMatrix.data[k + 1][4], generalMatrix.data[k + 1][5], generalMatrix.data[k + 1][6]] = this.points3d[i];
+      generalMatrix.data[k + 1][7] = 1;
+      generalMatrix.data[k + 1][8] = -this.points3d[i][0] * this.points2d[i][1];
+      generalMatrix.data[k + 1][9] = -this.points3d[i][1] * this.points2d[i][1];
+      generalMatrix.data[k + 1][10] = -this.points3d[i][2] * this.points2d[i][1];
+      generalMatrix.data[k + 1][11] = -this.points2d[i][1];
       k += 2;
     }
     const svd = new SingularValueDecomposition(generalMatrix);
     const matrix = new Matrix(svd.V).transpose();
-    const subMatrix = matrix.subMatrix(11, 11, 0, 11)[0];
+    const subMatrix = matrix.subMatrix(11, 11, 0, 11).data[0];
     this.resultMatrix = new Matrix([
       [subMatrix[0], subMatrix[1], subMatrix[2], subMatrix[3]],
       [subMatrix[4], subMatrix[5], subMatrix[6], subMatrix[7]],
@@ -66,7 +66,7 @@ class ProjectionCalculator3d extends ProjectionCalculator {
 
   getProjectedPoint(point3d) {
     const point = Matrix.columnVector([point3d[0], point3d[1], point3d[2], 1]);
-    const projectedPoint = this.resultMatrix.mmul(point);
+    const projectedPoint = this.resultMatrix.mmul(point).data;
     return [
       (projectedPoint[0] / projectedPoint[2]),
       (projectedPoint[1] / projectedPoint[2]),
@@ -87,8 +87,8 @@ class ProjectionCalculator3d extends ProjectionCalculator {
     const rayPoint1 = this.resultMatrixInversed.mmul(point1);
     const rayPoint2 = this.resultMatrixInversed.mmul(point2);
     const result = ProjectionCalculator3d.getIntersectionLineAndPlane(
-      rayPoint1,
-      rayPoint2,
+      rayPoint1.data,
+      rayPoint2.data,
       [0, 0, height],
       [0, 10, height],
       [10, 0, height],
@@ -128,8 +128,8 @@ class ProjectionCalculator2d extends ProjectionCalculator {
   }
 
   calculateMatrix() {
-    const leftMatrix = new Matrix(this.points2d.length * 2, 8);
-    const rigthMatrix = new Matrix(8, 1);
+    const leftMatrix = new Matrix(this.points2d.length * 2, 8).data;
+    const rigthMatrix = new Matrix(8, 1).data;
     let k = 0;
     for (let i = 0; i < this.points3d.length; i += 1) {
       [leftMatrix[k][0], leftMatrix[k][1]] = this.points3d[i];
@@ -151,7 +151,7 @@ class ProjectionCalculator2d extends ProjectionCalculator {
       [, rigthMatrix[k + 1][0]] = this.points2d[i];
       k += 2;
     }
-    const solution = solve(leftMatrix, rigthMatrix);
+    const solution = solve(leftMatrix, rigthMatrix).data;
     this.resultMatrix = new Matrix([
       [solution[0][0], solution[1][0], solution[2][0]],
       [solution[3][0], solution[4][0], solution[5][0]],
@@ -164,15 +164,15 @@ class ProjectionCalculator2d extends ProjectionCalculator {
     const point = Matrix.columnVector([point3d[0], point3d[1], 1]);
     const projectedPoint = this.resultMatrix.mmul(point);
     return [
-      (projectedPoint[0] / projectedPoint[2]),
-      (projectedPoint[1] / projectedPoint[2]),
+      (projectedPoint.data[0] / projectedPoint.data[2]),
+      (projectedPoint.data[1] / projectedPoint.data[2]),
     ];
   }
 
   getUnprojectedPoint(point2d) {
     const point = Matrix.columnVector([point2d[0], point2d[1], 1]);
     const projectedPoint = this.resultMatrixInversed.mmul(point);
-    return [projectedPoint[0] / projectedPoint[2], projectedPoint[1] / projectedPoint[2]];
+    return [projectedPoint.data[0] / projectedPoint.data[2], projectedPoint.data[1] / projectedPoint.data[2]];
   }
 }
 
